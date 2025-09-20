@@ -9,22 +9,22 @@ import java.util.List;
 
 public class EliteEnemy extends AbstractAircraft{
 
-    private int shootNum = 2;
-    private int direction = 3;
-    private int power = 20;
 
+    private int direction = 1;
+    private int power = 30;
+    private int shootNum = 1;
 
     public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
     }
-
+    @Override
     public void forward() {
         super.forward();
         if (locationY >= Main.WINDOW_HEIGHT ) {
             vanish();
         }
     }
-
+    @Override
     public List<BaseBullet> shoot(){
         List<BaseBullet> res = new LinkedList<>();
         int x = this.getLocationX();
