@@ -3,10 +3,7 @@ package edu.hitsz.application;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.gameprops.BaseProps;
-import edu.hitsz.gameprops.BombProps;
-import edu.hitsz.gameprops.FireProps;
-import edu.hitsz.gameprops.HpProps;
+import edu.hitsz.gameprops.*;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -41,6 +38,11 @@ public class Game extends JPanel {
     private final List<BaseBullet> heroBullets;
     private final List<BaseBullet> enemyBullets;
     private final List<BaseProps> gameProps;
+    private final EnemyAircraftFactory mobEnemyFactory;
+    private final EnemyAircraftFactory eliteEnemyFactory;
+    private final PropsFactory bombPropsFactory;
+    private final PropsFactory hpPropsFactory;
+    private final PropsFactory firePropsFactory;
 
     /**
      * 屏幕中出现的敌机最大数量
@@ -69,8 +71,7 @@ public class Game extends JPanel {
     private boolean gameOverFlag = false;
 
     public Game() {
-        heroAircraft = new HeroAircraft(
-                Main.WINDOW_WIDTH / 2,
+        heroAircraft = HeroAircraft.getInstance(Main.WINDOW_WIDTH / 2,
                 Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight() ,
                 0, 0, 100);
 
@@ -78,7 +79,11 @@ public class Game extends JPanel {
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         gameProps = new LinkedList<>();
-
+        mobEnemyFactory = new MobEnemyFactory();
+        eliteEnemyFactory = new EliteEnemyFactory();
+        bombPropsFactory = new BombPropsFactory();
+        hpPropsFactory = new HpPropsFactory();
+        firePropsFactory = new FirePropsFactory();
         /**
          * Scheduled 线程池，用于定时任务调度
          * 关于alibaba code guide：可命名的 ThreadFactory 一般需要第三方包
@@ -110,6 +115,7 @@ public class Game extends JPanel {
 
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                         double randomNum = Math.random();
+                        /*
                         if(randomNum < 0.5) {
                             enemyAircrafts.add(new MobEnemy(
                                     (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
@@ -119,9 +125,18 @@ public class Game extends JPanel {
                                     30
                             ));
                         }
-
+                        */
+                        if(randomNum < 0.5) {
+                            enemyAircrafts.add(mobEnemyFactory.createEnemyAricraft(
+                                    (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
+                                    (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
+                                    0,
+                                    10,
+                                    30
+                            ));
+                        }
                         else {
-                            enemyAircrafts.add(new EliteEnemy(
+                            enemyAircrafts.add(eliteEnemyFactory.createEnemyAricraft(
                                     (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
                                     (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
                                     0,
@@ -262,11 +277,11 @@ public class Game extends JPanel {
                         //如果是精英机，产生道具
                         if (enemyAircraft.getClass() == EliteEnemy.class) {
                             if(randNum > 0.5 && randNum <= 0.7) {
-                                gameProps.add(new HpProps(x, y, speedX, speedY));
+                                gameProps.add(hpPropsFactory.createProps(x, y, speedX, speedY));
                             } else if(randNum > 0.7 && randNum <= 0.9) {
-                                gameProps.add(new FireProps(x, y, speedX, speedY));
+                                gameProps.add(firePropsFactory.createProps(x, y, speedX, speedY));
                             } else if (randNum > 0.9) {
-                                gameProps.add(new BombProps(x, y, speedX, speedY));
+                                gameProps.add(bombPropsFactory.createProps(x, y, speedX, speedY));
                             }
                         }
                         score += 10;

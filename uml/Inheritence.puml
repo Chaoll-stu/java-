@@ -37,6 +37,7 @@ abstract class AbstractAircraft
 
 
 class HeroAircraft {
+    - instance:HeroAircraft
     - shootNum:int
     - power:int
     - direction:int
@@ -44,7 +45,7 @@ class HeroAircraft {
     + forward():void
     + shoot():List<BaseBullet>
 }
-
+HeroAircraft <|-- HeroAircraft::instance
 AbstractAircraft <|-- HeroAircraft
 
 class MobEnemy {
@@ -84,21 +85,21 @@ BaseBullet <|-- EnemyBullet
 
 abstract class BaseProps
 {
-    + Baseprops(int locationX, int locationY, int speedX, int speedY, int power)
+    + Baseprops(int locationX, int locationY, int speedX, int speedY)
     + forward():void
 	+ act():void
 }
 
 class HpProps{
-    + HpProps(int locationX, int locationY, int speedX, int speedY, int power)
+    + HpProps(int locationX, int locationY, int speedX, int speedY)
 }
 
 class FireProps{
-    + FireProps(int locationX, int locationY, int speedX, int speedY, int power)
+    + FireProps(int locationX, int locationY, int speedX, int speedY)
 }
 
 class BombProps{
-    + BombProps(int locationX, int locationY, int speedX, int speedY, int power)
+    + BombProps(int locationX, int locationY, int speedX, int speedY)
 }
 
 BaseProps <|-- HpProps
@@ -108,5 +109,47 @@ BaseProps <|-- BombProps
 AbstractFlyingObject <|-- AbstractAircraft
 AbstractFlyingObject <|-- BaseBullet
 AbstractFlyingObject <|-- BaseProps
+
+interface EnemyAircraftFactory{
+    + createEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp):AbstractAircraft
+}
+
+class MobEnemyFactory{
+    + createEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp):MobEnemy
+}
+
+class EliteEnemyFactory{
+    + createEliteAircraft(int locationX, int locationY, int speedX, int speedY, int hp):EliteEnemy
+}
+
+MobEnemy <.. MobEnemyFactory
+EnemyAircraftFactory <|.. MobEnemyFactory
+EliteEnemy <.. EliteEnemyFactory
+EnemyAircraftFactory <|.. EliteEnemyFactory
+
+interface PropsFactory{
+    + createProps(int locationX, int locationY, int speedX, int speedY):BaseProps
+}
+
+class HpPropsFactory{
+    + createProps(int locationX, int locationY, int speedX, int speedY):HpProps
+}
+
+class FirePropsFactory{
+    + createProps(int locationX, int locationY, int speedX, int speedY):FireProps
+}
+
+class BombPropsFactory{
+    + createProps(int locationX, int locationY, int speedX, int speedY):BombProps
+}
+
+HpProps <.. HpPropsFactory
+PropsFactory <|.. HpPropsFactory
+
+BombProps <.. BombPropsFactory
+PropsFactory <|.. BombPropsFactory
+
+FireProps <.. FirePropsFactory
+PropsFactory <|.. FirePropsFactory
 
 @enduml

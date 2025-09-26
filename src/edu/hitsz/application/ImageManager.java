@@ -46,8 +46,8 @@ public class ImageManager {
 
             BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/images/bg.jpg"));
             ELITE_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/elite.png"));
-            HERO_IMAGE = ImageIO.read(new FileInputStream("src/images/hero.png"));
-            MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/mob.png"));
+            HERO_IMAGE = ImageIO.read(new FileInputStream("src/images/test.png"));
+            MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/ruo2.png"));
             HERO_BULLET_IMAGE = ImageIO.read(new FileInputStream("src/images/bullet_hero.png"));
             ENEMY_BULLET_IMAGE = ImageIO.read(new FileInputStream("src/images/bullet_enemy.png"));
             PROP_BLOOD = ImageIO.read(new FileInputStream("src/images/prop_blood.png"));

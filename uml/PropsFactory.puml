@@ -1,0 +1,53 @@
+@startuml
+abstract class BaseProps
+{
+    + Baseprops(int locationX, int locationY, int speedX, int speedY)
+    + forward():void
+	+ act():void
+}
+
+class HpProps{
+    + HpProps(int locationX, int locationY, int speedX, int speedY)
+}
+
+class FireProps{
+    + FireProps(int locationX, int locationY, int speedX, int speedY)
+}
+
+class BombProps{
+    + BombProps(int locationX, int locationY, int speedX, int speedY)
+}
+
+BaseProps <|-- HpProps
+BaseProps <|-- FireProps
+BaseProps <|-- BombProps
+
+
+interface PropsFactory{
+    + createProps(int locationX, int locationY, int speedX, int speedY):BaseProps
+}
+
+class HpPropsFactory{
+    + createProps(int locationX, int locationY, int speedX, int speedY):HpProps
+}
+
+class FirePropsFactory{
+    + createProps(int locationX, int locationY, int speedX, int speedY):FireProps
+}
+
+class BombPropsFactory{
+    + createProps(int locationX, int locationY, int speedX, int speedY):BombProps
+}
+
+HpProps <.. HpPropsFactory
+PropsFactory <|.. HpPropsFactory
+
+BombProps <.. BombPropsFactory
+PropsFactory <|.. BombPropsFactory
+
+FireProps <.. FirePropsFactory
+PropsFactory <|.. FirePropsFactory
+
+
+
+@enduml
