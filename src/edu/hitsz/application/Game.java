@@ -127,22 +127,10 @@ public class Game extends JPanel {
                         }
                         */
                         if(randomNum < 0.5) {
-                            enemyAircrafts.add(mobEnemyFactory.createEnemyAricraft(
-                                    (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
-                                    (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
-                                    0,
-                                    10,
-                                    30
-                            ));
+                            enemyAircrafts.add(mobEnemyFactory.createEnemyAricraft());
                         }
                         else {
-                            enemyAircrafts.add(eliteEnemyFactory.createEnemyAricraft(
-                                    (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
-                                    (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
-                                    0,
-                                    10,
-                                    30
-                            ));
+                            enemyAircrafts.add(eliteEnemyFactory.createEnemyAricraft());
                         }
                 }
                 // 飞机射出子弹

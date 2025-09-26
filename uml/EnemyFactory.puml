@@ -2,15 +2,15 @@
 'https://plantuml.com/class-diagram
 
 interface EnemyAircraftFactory{
-    + createEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp):AbstractAircraft
+    + createEnemyAircraft():AbstractAircraft
 }
 
 class MobEnemyFactory{
-    + createEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp):MobEnemy
+    + createEnemyAircraft():MobEnemy
 }
 
 class EliteEnemyFactory{
-    + createEliteAircraft(int locationX, int locationY, int speedX, int speedY, int hp):EliteEnemy
+    + createEliteAircraft():EliteEnemy
 }
 
 abstract class AbstractAircraft
